@@ -1,0 +1,94 @@
+---
+- name: Set hostname to {{ hostname }}
+  hostname:
+    name: "{{ hostname }}"
+
+- name: Install required software packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - hostapd
+    - udhcpd
+    - iptables-persistent  # auto-loads iptables rules on boot
+
+- name: Configure hostapd
+  template:
+    src: templates/hostapd.conf.j2
+    dest: /etc/hostapd/hostapd.conf
+
+- name: Register hostapd configuration
+  template:
+    src: templates/hostapd-init.j2
+    dest: /etc/default/hostapd
+
+- name: Configure udhcpd
+  template:
+    src: templates/udhcpd.conf.j2
+    dest: /etc/udhcpd.conf
+
+- name: Register udhcpd configuration
+  template:
+    src: templates/udhcpd-init.j2
+    dest: /etc/default/udhcpd
+
+- name: Configure network interfaces
+  template:
+    src: templates/interfaces.j2
+    dest: /etc/network/interfaces
+
+- name: Enable IP forwarding
+  sysctl:
+    name: "net.ipv4.ip_forward"
+    value: 1
+    sysctl_set: yes
+    state: present
+    reload: yes
+
+# - name: Setup iptables rules (1/3)
+#   iptables:
+#     state: present
+#     table: nat
+#     chain: POSTROUTING
+#     out_interface: "{{ lan_adapter }}"
+#     jump: MASQUERADE
+
+# - name: Setup iptables rules (2/3)
+#   iptables:
+#     state: present
+#     chain: FORWARD
+#     in_interface: "{{ lan_adapter }}"
+#     out_interface: "{{ wifi_adapter }}"
+#     ctstate: RELATED,ESTABLISHED
+#     jump: ACCEPT
+
+# - name: Setup iptables rules (3/3)
+#   iptables:
+#     state: present
+#     chain: FORWARD
+#     in_interface: "{{ wifi_adapter }}"
+#     out_interface: "{{ lan_adapter }}"
+#     jump: ACCEPT
+
+- name: Install iptables rules
+  template:
+    src: templates/rules.{{ item }}.j2
+    dest: /etc/iptables/rules.{{ item }}
+  with_items:
+    - v4
+    - v6
+
+- name: Load new iptables rules
+  shell: "{{ item }}"
+  with_items:
+    - iptables-restore < /etc/iptables/rules.v4
+    - ip6tables-restore < /etc/iptables/rules.v6
+
+- name: Enable and (re-)start services
+  service:
+    name: "{{ item }}"
+    state: restarted
+    enabled: yes
+  with_items:
+    - hostapd
+    - udhcpd

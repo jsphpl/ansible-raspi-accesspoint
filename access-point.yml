@@ -1,0 +1,7 @@
+---
+- name: Setup {{ target }} as a Wifi access point
+  hosts: "{{ target }}"
+  become: yes
+  roles:
+    - role: access-point
+      tags: access-point

@@ -1,0 +1,62 @@
+---
+hostname: repeater-1
+
+# -|----------------------------------------------------------------------------
+#  | Device Settings
+# -|----------------------------------------------------------------------------
+#  |  Set the hardware adapters here
+#  |     - `wifi_adapter` is the device which will be used to create a wifi network
+#  |     - `lan_adapter`  is the device that is connected to the internet
+#  |
+wifi_adapter: wlan0
+lan_adapter: eth0
+
+
+# -|----------------------------------------------------------------------------
+#  | Wifi Settings
+# -|----------------------------------------------------------------------------
+#  |  Configuration options for your access point.
+#  |
+#  |     `ssid`: the "name" of the wifi networks as it appears in the
+#  |             list of available networks on client devices
+#  |
+#  |     `channel`: the wifi channel that will be used
+#  |
+#  |     `security.enabled`: set to `True` to enable WPA-2 encryption
+#  |     `security.psk`: the "password" for the network
+#  |                     (ignored if security.enabled == False)
+#  |
+ssid: erfindergarden-2
+channel: 6
+
+security:
+  enabled: True
+  psk: albert-einstein  # The "password" for the network (at least 8 characters)
+
+
+# -|----------------------------------------------------------------------------
+#  | DHCP Settings
+# -|----------------------------------------------------------------------------
+#  |  Settings for the local dhcp server. Configure
+#  |  address range, gateway, etc. here.
+#  |
+#  |
+ip_range:
+  start: 192.168.5.20
+  end: 192.168.5.254
+dns_servers: 192.168.178.1 8.8.8.8 4.4.4.4
+router: 192.168.5.1
+subnet: 255.255.255.0
+network: 192.168.5.0
+broadcast: 192.168.5.255
+lease_time: 864000  # That's how many seconds are in 10 days
+
+
+# -|----------------------------------------------------------------------------
+#  | Tweaks
+# -|----------------------------------------------------------------------------
+#  |  Some advanced options for special cases
+#  |
+#  |     `disable_wmm`: Set to `True` to disable QoS
+#  |
+disable_wmm: False
