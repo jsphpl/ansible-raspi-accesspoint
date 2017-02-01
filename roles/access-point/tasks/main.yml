@@ -90,5 +90,5 @@
     state: restarted
     enabled: yes
   with_items:
-    - hostapd
     - udhcpd
+    - hostapd

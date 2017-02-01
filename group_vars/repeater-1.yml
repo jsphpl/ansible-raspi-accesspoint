@@ -13,6 +13,23 @@ lan_adapter: eth0
 
 
 # -|----------------------------------------------------------------------------
+#  | Static IP settings for the lan_adapter
+# -|----------------------------------------------------------------------------
+#  |  If you want the lan_adapter (the one connecting your access point to a
+#  |  router) to have a fixed ip address, you can configure this here.
+#  |     - `enabled` set this to `True` to enable static ip configuration
+#  |     - `address` the ip address of the adapter
+#  |     - `netmask` the corresponding subnet mask
+#  |     - `gateway` ip address of the router
+#  |
+lan_static:
+  enabled: True
+  address: 192.168.0.2
+  netmask: 255.255.255.0
+  gateway: 192.168.0.1
+
+
+# -|----------------------------------------------------------------------------
 #  | Wifi Settings
 # -|----------------------------------------------------------------------------
 #  |  Configuration options for your access point.
@@ -41,14 +58,15 @@ security:
 #  |  address range, gateway, etc. here.
 #  |
 #  |
+ip_base: 192.168.1
+own_ip: "{{ ip_base }}.1"
 ip_range:
-  start: 192.168.5.20
-  end: 192.168.5.254
-dns_servers: 192.168.178.1 8.8.8.8 4.4.4.4
-router: 192.168.5.1
+  start: "{{ ip_base }}.20"
+  end: "{{ ip_base }}.254"
+dns_servers: "192.168.0.1 8.8.8.8 4.4.4.4"
 subnet: 255.255.255.0
-network: 192.168.5.0
-broadcast: 192.168.5.255
+network: "{{ ip_base }}.0"
+broadcast: "{{ ip_base }}.255"
 lease_time: 864000  # That's how many seconds are in 10 days
 
 
@@ -59,4 +77,4 @@ lease_time: 864000  # That's how many seconds are in 10 days
 #  |
 #  |     `disable_wmm`: Set to `True` to disable QoS
 #  |
-disable_wmm: False
+disable_wmm: True
