@@ -1,5 +1,2 @@
-[repeater-1]
-repeater-1 ansible_user=pi ansible_password=accesspoint
-
-[repeater-2]
-repeater-2 ansible_user=pi ansible_password=raspberry
+[local]
+127.0.0.1
