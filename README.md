@@ -7,7 +7,8 @@ Die komplette Konfiguration wird von einem tool namens [Ansible](https://www.ans
 3. Installiere Ansible: `sudo apt-get install ansible`
 4. Klone dieses Repository: `git clone https://github.com/jsphpl/ansible-raspi-accesspoint`
 5. Wechsle in den frisch erstellten Ordner: `cd ansible-raspi-accesspoint`
-6. Installiere den Access Point mit Standard-Einstellungen: `ansible-playbook access-point.yml -e target=local`
+6. Passe die Einstellungen für den Accesspoint in der Datei `group_vars/all.yml` an
+7. Installiere den Access Point mit Standard-Einstellungen: `ansible-playbook access-point.yml -e target=local`
 
 # Raspberry Pi as a WiFi access point
 
@@ -18,5 +19,6 @@ The entire configuration is managed by a tool called [Ansible](https://www.ansib
 3. Install Ansible: `sudo apt-get install ansible`
 4. Clone this Repository: `git clone https://github.com/jsphpl/ansible-raspi-accesspoint`
 5. Change into the freshly created directory: `cd ansible-raspi-accesspoint`
-6. Set up the access point with the default settings: `ansible-playbook access-point.yml -e target=local`
+6. Adjust the settings for the access point in `group_vars/all.yml`
+7. Set up the access point with the default settings: `ansible-playbook access-point.yml -e target=local`
 
