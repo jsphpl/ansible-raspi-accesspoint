@@ -18,6 +18,7 @@ iface {{ lan_adapter }} inet manual
 
 auto {{ wifi_adapter }}
 iface {{ wifi_adapter }} inet static
+  wireless-mode Master
   address {{ own_ip }}
   netmask {{ subnet }}
   network {{ network }}
