@@ -23,4 +23,4 @@ iface {{ wifi_adapter }} inet static
   netmask {{ subnet }}
   network {{ network }}
   broadcast {{ broadcast }}
-
+  post-up /usr/sbin/udhcpd -S /etc/udhcpd.conf
