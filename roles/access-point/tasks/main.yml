@@ -5,12 +5,11 @@
 
 - name: Install required software packages
   apt:
-    name: "{{ item }}"
+    pkg:
+      - hostapd
+      - udhcpd
+      - iptables-persistent  # auto-loads iptables rules on boot
     state: present
-  with_items:
-    - hostapd
-    - udhcpd
-    - iptables-persistent  # auto-loads iptables rules on boot
 
 - name: Configure hostapd
   template:
@@ -40,7 +39,7 @@
 - name: Enable IP forwarding
   sysctl:
     name: "net.ipv4.ip_forward"
-    value: 1
+    value: "1"
     sysctl_set: yes
     state: present
     reload: yes
